@@ -5,7 +5,7 @@
 #define FONT_SIZE 24
 #define LINE_SPACING 36
 #define CELL_X_INSET 40
-#define CELL_Y_INSET 10
+#define CELL_Y_INSET 20
 
 static NSString *
 formatPositiveAngle (CLLocationDegrees ang, double acc)
@@ -147,13 +147,21 @@ formatDistance (CLLocationDistance dist)
 
 - (void)drawRect:(CGRect)clip
 {
+  static NSString *right_arrow, *up_arrow, *down_arrow;
+
   CLLocationCoordinate2D pos;
   CLLocationDistance altitude, distance;
   CLLocationAccuracy hacc, vacc;
   CGRect bounds = [self bounds], r;
 
+  if (right_arrow == nil)
+    {
+      right_arrow = [[NSString alloc] initWithUTF8String:"\342\206\222"];
+      up_arrow = [[NSString alloc] initWithUTF8String:"\342\206\221"];
+      down_arrow = [[NSString alloc] initWithUTF8String:"\342\206\223"];
+    }
+
   UIFont *f = [UIFont fontWithName:@"Courier" size:FONT_SIZE];
-  CGPoint p = CGPointMake (CELL_X_INSET, CELL_Y_INSET);
 
   [[UIColor blackColor] set];
   UIRectFill (r);
@@ -173,6 +181,13 @@ formatDistance (CLLocationDistance dist)
       vacc = -1;
     }
 
+  r = CGRectMake (10, 0, bounds.origin.x + bounds.size.width - 10, 14);
+  [[[_location timestamp] description] drawInRect:r
+   withFont:[UIFont fontWithName:@"Courier" size:14]
+   lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentLeft];
+
+  CGPoint p = CGPointMake (CELL_X_INSET, CELL_Y_INSET);
+
   [formatAngle (pos.latitude, hacc, "N", "S") drawAtPoint:p withFont:f];
   p.y += LINE_SPACING;
   [formatAngle (pos.longitude, hacc, "E", "W") drawAtPoint:p withFont:f];
@@ -181,56 +196,38 @@ formatDistance (CLLocationDistance dist)
   [formatAltitude (altitude, vacc) drawAtPoint:p withFont:f];
   p.y += LINE_SPACING;
 
-  r = CGRectMake (p.x, p.y, bounds.origin.x + bounds.size.width
-		  - p.x - CELL_X_INSET, LINE_SPACING*.5);
-  [[[_location timestamp] description] drawInRect:r
-   withFont:[UIFont fontWithName:@"Courier" size:12]
-   lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
-  p.y += r.size.height;
+  NSString *h_delta = nil, *v_delta = nil, *str;
 
-  if (_previousLocation != nil)
+  if (_previousLocation && hacc >= 0)
     {
-      static NSString *right_arrow, *up_arrow, *down_arrow;
-      NSString *h_delta = nil, *v_delta = nil, *str;
-
-      if (right_arrow == nil)
-	{
-	  right_arrow = [[NSString alloc] initWithUTF8String:"\342\206\222"];
-	  up_arrow = [[NSString alloc] initWithUTF8String:"\342\206\221"];
-	  down_arrow = [[NSString alloc] initWithUTF8String:"\342\206\223"];
-	}
-
-      if (hacc >= 0)
-	{
-	  distance = [_location getDistanceFrom:_previousLocation];
-	  h_delta = [right_arrow stringByAppendingString:
-		     formatDistance (distance)];
-	}
-
-      if (vacc >= 0)
-	{
-	  distance = altitude - [_previousLocation altitude];
-	  v_delta = [(distance > 0 ? up_arrow : down_arrow)
-		     stringByAppendingString: formatDistance (fabs(distance))];
-	}
-
-      if (h_delta && v_delta)
-	str = [NSString stringWithFormat:@"%@  %@", h_delta, v_delta];
-      else if (h_delta)
-	str = h_delta;
-      else
-	str = v_delta;
-
-      if (str != nil)
-	{
-	  r = CGRectMake (p.x, p.y, bounds.origin.x + bounds.size.width
-			  - p.x - CELL_X_INSET, LINE_SPACING);
-	  [str drawInRect:r withFont:f lineBreakMode:UILineBreakModeWordWrap
-	   alignment:UITextAlignmentRight];
-	}
-
-      p.y += LINE_SPACING;
+      distance = [_location getDistanceFrom:_previousLocation];
+      h_delta = [right_arrow stringByAppendingString:
+		 formatDistance (distance)];
     }
+
+  if (_previousLocation && vacc >= 0)
+    {
+      distance = altitude - [_previousLocation altitude];
+      v_delta = [(distance > 0 ? up_arrow : down_arrow)
+	       stringByAppendingString: formatDistance (fabs(distance))];
+    }
+
+  if (h_delta && v_delta)
+    str = [NSString stringWithFormat:@"%@ %@", h_delta, v_delta];
+  else if (h_delta)
+    str = h_delta;
+  else
+    str = v_delta;
+
+  if (str == nil)
+    str = @"-";
+
+  r = CGRectMake (p.x, p.y, bounds.origin.x + bounds.size.width
+		  - p.x - CELL_X_INSET, LINE_SPACING);
+  [str drawInRect:r withFont:f lineBreakMode:UILineBreakModeWordWrap
+   alignment:UITextAlignmentRight];
+
+  p.y += LINE_SPACING;
 }
 
 @end

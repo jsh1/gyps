@@ -10,6 +10,7 @@
 @interface LocationTableViewController ()
 - (void)loadLocations;
 - (void)saveLocations;
+- (void)reloadCells;
 @end
 
 @implementation LocationTableViewController
@@ -18,7 +19,11 @@
 {
   [super viewDidLoad];
   [[self tableView] setRowHeight:[LocationTableViewCell heightOfRow]];
-  self.navigationItem.rightBarButtonItem = [self editButtonItem];
+  [[self tableView] setAllowsSelection:NO];
+  [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+  [[self tableView] setSeparatorColor:
+   [UIColor colorWithRed:.4 green:.4 blue:0 alpha:1]];
+  self.navigationItem.leftBarButtonItem = [self editButtonItem];
   [self loadLocations];
 }
 
@@ -55,6 +60,7 @@
 
 - (void)dealloc
 {
+  [NSRunLoop cancelPreviousPerformRequestsWithTarget:self];
   [_locations release];
   [_locationManager release];
   [super dealloc];
@@ -72,14 +78,17 @@
   if (data != nil)
     {
       [_locations release];
-      _locations = [[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+      _locations = [[NSKeyedUnarchiver
+		     unarchiveObjectWithData:data] mutableCopy];
     }
+  [[self tableView] reloadData];
 }
 
 - (void)updateFirstRow:(CLLocation *)loc
 {
   static NSIndexPath *row0;
   LocationTableViewCell *cell;
+  NSInteger count;
 
   if (row0 == nil)
     row0 = [[NSIndexPath indexPathForRow:0 inSection:0] retain];
@@ -89,10 +98,41 @@
   if (cell != nil)
     {
       [cell setLocation:loc];
-      if ([_locations count] != 0)
-	[cell setPreviousLocation:[_locations objectAtIndex:0]];
+      count = [_locations count];
+      if (count != 0)
+	[cell setPreviousLocation:[_locations objectAtIndex:count-1]];
       else
 	[cell setPreviousLocation:nil];
+    }
+}
+
+- (void)reloadCells
+{
+  UITableView *tableView = [self tableView];
+  LocationTableViewCell *cell;
+  CLLocation *loc, *prevLoc;
+  NSInteger count;
+
+  count = [_locations count];
+
+  for (NSIndexPath *path in [tableView indexPathsForVisibleRows])
+    {
+      cell = (id) [tableView cellForRowAtIndexPath:path];
+      if (cell == nil)
+	continue;
+
+      if (path.row == 0)
+	loc = [_locationManager location];
+      else
+	loc = [_locations objectAtIndex:count-path.row];
+
+      if (path.row == count)
+	prevLoc = nil;
+      else
+	prevLoc = [_locations objectAtIndex:count-(path.row+1)];
+
+      [cell setLocation:loc];
+      [cell setPreviousLocation:prevLoc];
     }
 }
 
@@ -108,13 +148,12 @@
   if (loc != nil)
     {
       [_locations addObject:loc];
+      [self saveLocations];
 
       [[self tableView] insertRowsAtIndexPaths:
        [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]
-       withRowAnimation:UITableViewRowAnimationLeft];
-      [self updateFirstRow:[_locationManager location]];
-
-      [self saveLocations];
+       withRowAnimation:UITableViewRowAnimationTop];
+      [self reloadCells];
     }
 }
 
@@ -145,7 +184,7 @@
 
   sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
 	   cancelButtonTitle:@"Cancel"
-	   destructiveButtonTitle:@"Confirm" otherButtonTitles:nil];
+	   destructiveButtonTitle:@"Confirm Clear" otherButtonTitles:nil];
 
   toolbar = [[(GypsAppDelegate *)[[UIApplication sharedApplication]
 				  delegate] controller] toolbar];
@@ -244,7 +283,7 @@
   if (path.row == count)
     prevLoc = nil;
   else
-    prevLoc = [_locations objectAtIndex:(count-path.row)-1];
+    prevLoc = [_locations objectAtIndex:count-(path.row+1)];
 
   [cell setLocation:loc];
   [cell setPreviousLocation:prevLoc];
@@ -265,15 +304,17 @@
     commitEditingStyle:(UITableViewCellEditingStyle)style
     forRowAtIndexPath:(NSIndexPath *)path
 {
+  NSInteger count;
+
   if (style == UITableViewCellEditingStyleDelete && path.row > 0)
     {
-      [_locations removeObjectAtIndex:path.row-1];
+      count = [_locations count];
+      [_locations removeObjectAtIndex:count-path.row];
       [self saveLocations];
 
       [tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
        withRowAnimation:UITableViewRowAnimationLeft];
-
-      [self updateFirstRow:[_locationManager location]];
+      [self reloadCells];
     }
 }
 
