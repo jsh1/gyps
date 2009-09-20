@@ -60,4 +60,26 @@
   return [NSData dataWithContentsOfFile:path];
 }
 
++ (NSArray *)allMaps
+{
+  static NSArray *maps;
+  NSData *data;
+
+  if (maps == nil)
+    {
+      data = [self applicationDataFromFile:@"GypsMaps.plist"];
+
+      if (data != nil)
+	{
+	  maps = [[NSPropertyListSerialization propertyListFromData:data
+		   mutabilityOption:NSPropertyListImmutable
+		   format:nil errorDescription:nil] retain];
+	}
+      else
+	maps = [[NSArray alloc] init];
+    }
+
+  return maps;
+}
+
 @end

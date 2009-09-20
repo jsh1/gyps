@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Wawona</string>
+		<key>filename</key>
+		<string>Maps/Wawona_O37119E6.pdf</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Mariposa Grove</string>
+		<key>filename</key>
+		<string>Maps/Mariposa_Grove_O37119E5.pdf</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Sing Peak</string>
+		<key>filename</key>
+		<string>Maps/Sing_Peak_O37119E4.pdf</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Half Dome</string>
+		<key>filename</key>
+		<string>Maps/Half_Dome_O37119F5.pdf</string>
+	</dict>
+</array>
+</plist>

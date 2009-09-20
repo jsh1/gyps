@@ -4,6 +4,7 @@
 
 #import "GypsAppDelegate.h"
 #import "LocationTableViewCell.h"
+#import "MapsViewController.h"
 
 #define CELL_IDENTIFIER @"locationCell"
 
@@ -42,16 +43,10 @@
 
   [_locationManager startUpdatingLocation];
   [_locationManager startUpdatingHeading];
-
-  [[UIApplication sharedApplication]
-   setStatusBarStyle:UIStatusBarStyleBlackOpaque];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-  [[UIApplication sharedApplication]
-   setStatusBarStyle:UIStatusBarStyleDefault];
-
   [_locationManager stopUpdatingHeading];
   [_locationManager stopUpdatingLocation];
 
@@ -177,7 +172,19 @@
     }
 }
 
-- (void)clearAction:(id)sender
+- (IBAction)mapsAction:(id)sender
+{
+  if (_mapsController == nil)
+    [[NSBundle mainBundle] loadNibNamed:@"Maps" owner:self options:nil];
+
+  if (_mapsController != nil)
+    {
+      [(UINavigationController *)[self parentViewController]
+       pushViewController:_mapsController animated:YES];
+    }
+}
+
+- (IBAction)clearAction:(id)sender
 {
   UIActionSheet *sheet;
   UIToolbar *toolbar;
@@ -194,7 +201,7 @@
   _actionSheetMode = kLocationActionSheetModeConfirmClear;
 }
 
-- (void)emailKMLAction:(id)sender
+- (IBAction)emailKMLAction:(id)sender
 {
   MFMailComposeViewController *controller;
   NSMutableString *str;

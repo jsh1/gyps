@@ -4,6 +4,8 @@
 #import <MessageUI/MessageUI.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class MapsViewController;
+
 enum LocationActionSheetMode
 {
     kLocationActionSheetModeNone,
@@ -15,6 +17,8 @@ enum LocationActionSheetMode
     <UITableViewDelegate, UIActionSheetDelegate,
      MFMailComposeViewControllerDelegate, CLLocationManagerDelegate>
 {
+  IBOutlet MapsViewController *_mapsController;
+
   NSMutableArray *_locations;
   CLLocationManager *_locationManager;
   unsigned int _actionSheetMode;
@@ -22,5 +26,8 @@ enum LocationActionSheetMode
 
 - (IBAction)addAction:(id)sender;
 - (IBAction)actionAction:(id)sender;
+- (IBAction)mapsAction:(id)sender;
+- (IBAction)clearAction:(id)sender;
+- (IBAction)emailKMLAction:(id)sender;
 
 @end
