@@ -21,6 +21,8 @@
 		573634A41066CF6A0008DFA2 /* MapsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 573634A11066CF6A0008DFA2 /* MapsTableViewController.m */; };
 		573634A51066CF6A0008DFA2 /* MapsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 573634A31066CF6A0008DFA2 /* MapsViewController.m */; };
 		573634C11066D0030008DFA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 573634C01066D0030008DFA2 /* QuartzCore.framework */; };
+		576357581067D3F8006DBBB0 /* MapsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 576357571067D3F8006DBBB0 /* MapsLayer.m */; };
+		5763576E1067D4C2006DBBB0 /* MapsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5763576D1067D4C2006DBBB0 /* MapsView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,10 @@
 		573634A21066CF6A0008DFA2 /* MapsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapsViewController.h; sourceTree = "<group>"; };
 		573634A31066CF6A0008DFA2 /* MapsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapsViewController.m; sourceTree = "<group>"; };
 		573634C01066D0030008DFA2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		576357561067D3F8006DBBB0 /* MapsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapsLayer.h; sourceTree = "<group>"; };
+		576357571067D3F8006DBBB0 /* MapsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapsLayer.m; sourceTree = "<group>"; };
+		5763576C1067D4C2006DBBB0 /* MapsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapsView.h; sourceTree = "<group>"; };
+		5763576D1067D4C2006DBBB0 /* MapsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapsView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Gyps-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Gyps-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,16 +74,20 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				573634A01066CF6A0008DFA2 /* MapsTableViewController.h */,
-				573634A11066CF6A0008DFA2 /* MapsTableViewController.m */,
-				573634A21066CF6A0008DFA2 /* MapsViewController.h */,
-				573634A31066CF6A0008DFA2 /* MapsViewController.m */,
+				1D3623240D0F684500981E51 /* GypsAppDelegate.h */,
+				1D3623250D0F684500981E51 /* GypsAppDelegate.m */,
 				57158D871065B4CD00FD890C /* LocationTableViewCell.h */,
 				57158D881065B4CD00FD890C /* LocationTableViewCell.m */,
 				57158D891065B4CD00FD890C /* LocationTableViewController.h */,
 				57158D8A1065B4CD00FD890C /* LocationTableViewController.m */,
-				1D3623240D0F684500981E51 /* GypsAppDelegate.h */,
-				1D3623250D0F684500981E51 /* GypsAppDelegate.m */,
+				573634A21066CF6A0008DFA2 /* MapsViewController.h */,
+				573634A31066CF6A0008DFA2 /* MapsViewController.m */,
+				5763576C1067D4C2006DBBB0 /* MapsView.h */,
+				5763576D1067D4C2006DBBB0 /* MapsView.m */,
+				576357561067D3F8006DBBB0 /* MapsLayer.h */,
+				576357571067D3F8006DBBB0 /* MapsLayer.m */,
+				573634A01066CF6A0008DFA2 /* MapsTableViewController.h */,
+				573634A11066CF6A0008DFA2 /* MapsTableViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -194,6 +204,8 @@
 				57158D8C1065B4CD00FD890C /* LocationTableViewController.m in Sources */,
 				573634A41066CF6A0008DFA2 /* MapsTableViewController.m in Sources */,
 				573634A51066CF6A0008DFA2 /* MapsViewController.m in Sources */,
+				576357581067D3F8006DBBB0 /* MapsLayer.m in Sources */,
+				5763576E1067D4C2006DBBB0 /* MapsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
