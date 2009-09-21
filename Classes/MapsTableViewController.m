@@ -13,19 +13,18 @@
 {
   [super viewDidLoad];
 
-  _allMaps = [[GypsAppDelegate allMaps] copy];
-}
-
-- (NSDictionary *)currentMap
-{
-  return _currentMap;
+  _allMaps = [[GypsAppDelegate allMaps] retain];
 }
 
 - (void)dealloc
 {
   [_allMaps release];
-  [_currentMap release];
   [super dealloc];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)mode
+{
+  return YES;
 }
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)sec

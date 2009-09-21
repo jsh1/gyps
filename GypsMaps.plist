@@ -4,27 +4,297 @@
 <array>
 	<dict>
 		<key>name</key>
+		<string>San Francisco North</string>
+		<key>filename</key>
+		<string>Maps/San_Francisco_North_O37122G4.pdf</string>
+		<key>corners</key>
+		<array>
+			<dict>
+				<key>latitude</key>
+				<string>37 52 30 N</string>
+				<key>longitude</key>
+				<string>122 30 0 W</string>
+				<key>x</key>
+				<real>0.0702909</real>
+				<key>y</key>
+				<real>0.96729</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 52 30 N</string>
+				<key>longitude</key>
+				<string>122 22 30 W</string>
+				<key>x</key>
+				<real>0.965374</real>
+				<key>y</key>
+				<real>0.949637</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 45 0 N</string>
+				<key>longitude</key>
+				<string>122 30 0 W</string>
+				<key>x</key>
+				<real>0.0405125</real>
+				<key>y</key>
+				<real>0.118899</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 45 0 N</string>
+				<key>longitude</key>
+				<string>122 22 30 W</string>
+				<key>x</key>
+				<real>0.936288</real>
+				<key>y</key>
+				<real>0.101765</real>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Cupertino</string>
+		<key>filename</key>
+		<string>Maps/Cupertino_O37122C1.pdf</string>
+		<key>corners</key>
+		<array>
+			<dict>
+				<key>latitude</key>
+				<string>37 22 30 N</string>
+				<key>longitude</key>
+				<string>122 07 30 W</string>
+				<key>x</key>
+				<real>0.0665984</real>
+				<key>y</key>
+				<real>0.967516</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 22 30 N</string>
+				<key>longitude</key>
+				<string>122 0 0 W</string>
+				<key>x</key>
+				<real>0.956284</real>
+				<key>y</key>
+				<real>0.952703</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 15 0 N</string>
+				<key>longitude</key>
+				<string>122 07 30 W</string>
+				<key>x</key>
+				<real>0.0413251</real>
+				<key>y</key>
+				<real>0.116684</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 15 0 N</string>
+				<key>longitude</key>
+				<string>122 0 0 W</string>
+				<key>x</key>
+				<real>0.932719</real>
+				<key>y</key>
+				<real>0.102131</real>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
 		<string>Wawona</string>
 		<key>filename</key>
 		<string>Maps/Wawona_O37119E6.pdf</string>
+		<key>corners</key>
+		<array>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 45 0 W</string>
+				<key>x</key>
+				<real>0.0506897</real>
+				<key>y</key>
+				<real>0.956283</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 37 30 W</string>
+				<key>x</key>
+				<real>0.945172</real>
+				<key>y</key>
+				<real>0.958377</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 30 0 N</string>
+				<key>longitude</key>
+				<string>119 45 0 W</string>
+				<key>x</key>
+				<real>0.0534483</real>
+				<key>y</key>
+				<real>0.0994764</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 30 0 N</string>
+				<key>longitude</key>
+				<string>119 37 30 W</string>
+				<key>x</key>
+				<real>0.949655</real>
+				<key>y</key>
+				<real>0.101571</real>
+			</dict>
+		</array>
 	</dict>
 	<dict>
 		<key>name</key>
 		<string>Mariposa Grove</string>
 		<key>filename</key>
 		<string>Maps/Mariposa_Grove_O37119E5.pdf</string>
+		<key>corners</key>
+		<array>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 37 30 W</string>
+				<key>x</key>
+				<real>0.0396213</real>
+				<key>y</key>
+				<real>0.962788</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 30W</string>
+				<key>x</key>
+				<real>0.94986</real>
+				<key>y</key>
+				<real>0.965933</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 30 N</string>
+				<key>longitude</key>
+				<string>119 37 30W</string>
+				<key>x</key>
+				<real>0.0441795</real>
+				<key>y</key>
+				<real>0.105084</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 30 N</string>
+				<key>longitude</key>
+				<string>119 30 W</string>
+				<key>x</key>
+				<real>0.956171</real>
+				<key>y</key>
+				<real>0.108491</real>
+			</dict>
+		</array>
 	</dict>
 	<dict>
 		<key>name</key>
 		<string>Sing Peak</string>
 		<key>filename</key>
 		<string>Maps/Sing_Peak_O37119E4.pdf</string>
+		<key>corners</key>
+		<array>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 30 W</string>
+				<key>x</key>
+				<real>0.0374465</real>
+				<key>y</key>
+				<real>0.966402</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 22 30 W</string>
+				<key>x</key>
+				<real>0.96398</real>
+				<key>y</key>
+				<real>0.970106</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 30 N</string>
+				<key>longitude</key>
+				<string>119 30 W</string>
+				<key>x</key>
+				<real>0.0442225</real>
+				<key>y</key>
+				<real>0.1</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 30 N</string>
+				<key>longitude</key>
+				<string>119 22 30 W</string>
+				<key>x</key>
+				<real>0.970756</real>
+				<key>y</key>
+				<real>0.104233</real>
+			</dict>
+		</array>
 	</dict>
 	<dict>
 		<key>name</key>
 		<string>Half Dome</string>
 		<key>filename</key>
 		<string>Maps/Half_Dome_O37119F5.pdf</string>
+		<key>corners</key>
+		<array>
+			<dict>
+				<key>latitude</key>
+				<string>37 45 N</string>
+				<key>longitude</key>
+				<string>119 37 30 W</string>
+				<key>x</key>
+				<real>0.0409605</real>
+				<key>y</key>
+				<real>0.964436</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 45 N</string>
+				<key>longitude</key>
+				<string>119 30 W</string>
+				<key>x</key>
+				<real>0.955508</real>
+				<key>y</key>
+				<real>0.967861</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 37 30 W</string>
+				<key>x</key>
+				<real>0.0451977</real>
+				<key>y</key>
+				<real>0.102476</real>
+			</dict>
+			<dict>
+				<key>latitude</key>
+				<string>37 37 30 N</string>
+				<key>longitude</key>
+				<string>119 30 W</string>
+				<key>x</key>
+				<real>0.961511</real>
+				<key>y</key>
+				<real>0.105638</real>
+			</dict>
+		</array>
 	</dict>
 </array>
 </plist>

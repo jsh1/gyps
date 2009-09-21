@@ -161,12 +161,18 @@ formatDistance (CLLocationDistance dist)
       down_arrow = [[NSString alloc] initWithUTF8String:"\342\206\223"];
     }
 
+#if 0
   UIFont *f = [UIFont fontWithName:@"Courier" size:FONT_SIZE];
+  UIFont *bf = [UIFont fontWithName:@"Courier-Bold" size:FONT_SIZE];
+  UIFont *df = [UIFont fontWithName:@"Courier" size:14];
+#else
+  UIFont *f = [UIFont systemFontOfSize:FONT_SIZE];
+  UIFont *bf = [UIFont boldSystemFontOfSize:FONT_SIZE];
+  UIFont *df = [UIFont systemFontOfSize:14];
+#endif
 
-  [[UIColor blackColor] set];
-  UIRectFill (r);
-
-  [[UIColor yellowColor] set];
+  [[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1] set];
+  UIRectFill (clip);
 
   if (_location != nil)
     {
@@ -181,16 +187,20 @@ formatDistance (CLLocationDistance dist)
       vacc = -1;
     }
 
+  [[UIColor grayColor] set];
+
   r = CGRectMake (10, 0, bounds.origin.x + bounds.size.width - 10, 14);
   [[[_location timestamp] description] drawInRect:r
-   withFont:[UIFont fontWithName:@"Courier" size:14]
-   lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentLeft];
+   withFont:df lineBreakMode:UILineBreakModeWordWrap
+   alignment:UITextAlignmentLeft];
+
+  [[UIColor blackColor] set];
 
   CGPoint p = CGPointMake (CELL_X_INSET, CELL_Y_INSET);
 
-  [formatAngle (pos.latitude, hacc, "N", "S") drawAtPoint:p withFont:f];
+  [formatAngle (pos.latitude, hacc, "N", "S") drawAtPoint:p withFont:bf];
   p.y += LINE_SPACING;
-  [formatAngle (pos.longitude, hacc, "E", "W") drawAtPoint:p withFont:f];
+  [formatAngle (pos.longitude, hacc, "E", "W") drawAtPoint:p withFont:bf];
   p.y += LINE_SPACING;
 
   [formatAltitude (altitude, vacc) drawAtPoint:p withFont:f];

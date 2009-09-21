@@ -10,6 +10,8 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
   [_window addSubview:[_controller view]];
+  [[UIApplication sharedApplication]
+   setStatusBarStyle:UIStatusBarStyleBlackOpaque];
 }
 
 - (void)dealloc

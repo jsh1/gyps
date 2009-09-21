@@ -98,7 +98,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				5736349E1066C4560008DFA2 /* Maps.xib */,
 			);
 			name = Gyps;
 			sourceTree = "<group>";
@@ -116,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				5736349E1066C4560008DFA2 /* Maps.xib */,
 				8D1107310486CEB800E47090 /* Gyps-Info.plist */,
 			);
 			name = Resources;

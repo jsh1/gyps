@@ -14,6 +14,9 @@
 - (void)reloadCells;
 @end
 
+NSString *const CurrentLocationDidChange = @"CurrentLocationDidChange";
+NSString *const LocationsDidChange = @"LocationsDidChange";
+
 @implementation LocationTableViewController
 
 - (void)viewDidLoad
@@ -22,8 +25,7 @@
   [[self tableView] setRowHeight:[LocationTableViewCell heightOfRow]];
   [[self tableView] setAllowsSelection:NO];
   [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-  [[self tableView] setSeparatorColor:
-   [UIColor colorWithRed:.4 green:.4 blue:0 alpha:1]];
+  [[self tableView] setSeparatorColor:[UIColor lightGrayColor]];
   self.navigationItem.leftBarButtonItem = [self editButtonItem];
   [self loadLocations];
 }
@@ -79,6 +81,16 @@
   [[self tableView] reloadData];
 }
 
+- (NSArray *)locations
+{
+  return [[_locations copy] autorelease];
+}
+
+- (CLLocation *)currentLocation
+{
+  return [_locationManager location];
+}
+
 - (void)updateFirstRow:(CLLocation *)loc
 {
   static NSIndexPath *row0;
@@ -116,15 +128,20 @@
       if (cell == nil)
 	continue;
 
-      if (path.row == 0)
-	loc = [_locationManager location];
-      else
-	loc = [_locations objectAtIndex:count-path.row];
+      loc = prevLoc = nil;
 
-      if (path.row == count)
-	prevLoc = nil;
+      if (path.section == 0)
+	{
+	  loc = [_locationManager location];
+	  if (count > 0)
+	    prevLoc = [_locations objectAtIndex:count-1];
+	}
       else
-	prevLoc = [_locations objectAtIndex:count-(path.row+1)];
+	{
+	  loc = [_locations objectAtIndex:count-path.row-1];
+	  if (path.row < count - 1)
+	    prevLoc = [_locations objectAtIndex:count-path.row-2];
+	}
 
       [cell setLocation:loc];
       [cell setPreviousLocation:prevLoc];
@@ -146,9 +163,12 @@
       [self saveLocations];
 
       [[self tableView] insertRowsAtIndexPaths:
-       [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]]
+       [NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]]
        withRowAnimation:UITableViewRowAnimationTop];
       [self reloadCells];
+
+      [[NSNotificationCenter defaultCenter]
+       postNotificationName:LocationsDidChange object:self];
     }
 }
 
@@ -259,9 +279,26 @@
 
 /* UITableViewDelegate / UITableViewDataSource methods. */
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tv
+{
+  return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tv
+    titleForHeaderInSection:(NSInteger)section
+{
+  if (section == 0)
+    return @"Current Location";
+  else
+    return @"Saved Locations";
+}
+
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)sec
 {
-  return [_locations count] + 1;
+  if (sec == 0)
+    return 1;
+  else
+    return [_locations count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv
@@ -281,16 +318,20 @@
     }
 
   count = [_locations count];
+  loc = prevLoc = nil;
 
-  if (path.row == 0)
-    loc = [_locationManager location];
+  if (path.section == 0)
+    {
+      loc = [_locationManager location];
+      if (count > 0)
+	prevLoc = [_locations objectAtIndex:count-1];
+    }
   else
-    loc = [_locations objectAtIndex:count-path.row];
-
-  if (path.row == count)
-    prevLoc = nil;
-  else
-    prevLoc = [_locations objectAtIndex:count-(path.row+1)];
+    {
+      loc = [_locations objectAtIndex:count-path.row-1];
+      if (path.row < count - 1)
+	prevLoc = [_locations objectAtIndex:count-path.row-2];
+    }
 
   [cell setLocation:loc];
   [cell setPreviousLocation:prevLoc];
@@ -301,7 +342,7 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tv
     editingStyleForRowAtIndexPath:(NSIndexPath *)path
 {
-  if (path.row == 0)
+  if (path.section == 0)
     return UITableViewCellEditingStyleNone;
   else
     return UITableViewCellEditingStyleDelete;
@@ -313,15 +354,18 @@
 {
   NSInteger count;
 
-  if (style == UITableViewCellEditingStyleDelete && path.row > 0)
+  if (style == UITableViewCellEditingStyleDelete && path.section > 0)
     {
       count = [_locations count];
-      [_locations removeObjectAtIndex:count-path.row];
+      [_locations removeObjectAtIndex:count-(path.row+1)];
       [self saveLocations];
 
       [tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
        withRowAnimation:UITableViewRowAnimationLeft];
       [self reloadCells];
+
+      [[NSNotificationCenter defaultCenter]
+       postNotificationName:LocationsDidChange object:self];
     }
 }
 
@@ -372,6 +416,9 @@
     didUpdateToLocation:(CLLocation *)newLoc fromLocation:(CLLocation *)oldLoc
 {
   [self updateFirstRow:newLoc];
+
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:CurrentLocationDidChange object:self];
 }
 
 - (void)locationManager:(CLLocationManager *)manager

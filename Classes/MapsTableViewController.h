@@ -5,9 +5,6 @@
 @interface MapsTableViewController : UITableViewController
 {
   NSArray *_allMaps;
-  NSDictionary *_currentMap;
 }
-
-@property(nonatomic, readonly) NSDictionary *currentMap;
 
 @end

@@ -1,6 +1,7 @@
 /* MapsViewController.h  -*- c-style: gnu -*- */
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class LocationTableViewController;
 @class MapsTableViewController;
@@ -19,6 +20,7 @@
 }
 
 @property(nonatomic, retain) NSDictionary *currentMap;
+@property(nonatomic, readonly) UIScrollView *scrollView;
 
 - (IBAction)mapListAction:(id)sender;
 

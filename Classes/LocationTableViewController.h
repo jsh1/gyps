@@ -24,6 +24,9 @@ enum LocationActionSheetMode
   unsigned int _actionSheetMode;
 }
 
+@property(nonatomic, readonly) CLLocation *currentLocation;
+@property(nonatomic, readonly) NSArray *locations;
+
 - (IBAction)addAction:(id)sender;
 - (IBAction)actionAction:(id)sender;
 - (IBAction)mapsAction:(id)sender;
@@ -31,3 +34,6 @@ enum LocationActionSheetMode
 - (IBAction)emailKMLAction:(id)sender;
 
 @end
+
+extern NSString *const CurrentLocationDidChange;
+extern NSString *const LocationsDidChange;
