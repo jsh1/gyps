@@ -19,7 +19,6 @@
 }
 
 @property(nonatomic, retain) NSDictionary *currentMap;
-@property(nonatomic, readonly) UIScrollView *scrollView;
 
 @property(nonatomic) CGFloat currentLevelOfDetail;
 - (void)setCurrentLevelOfDetail:(CGFloat)level animated:(BOOL)flag;

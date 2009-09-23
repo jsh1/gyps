@@ -28,6 +28,7 @@
   _tapTimer = nil;
 
   level = [_controller currentLevelOfDetail];
+  new_level = level;
 
   switch ([[event allTouches] count])
     {

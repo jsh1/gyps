@@ -10,8 +10,6 @@
 
 @implementation MapsViewController
 
-@synthesize scrollView = _scrollView;
-
 - (void)viewDidLoad
 {
   NSString *str;

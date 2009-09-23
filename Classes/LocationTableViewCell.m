@@ -7,6 +7,12 @@
 #define CELL_X_INSET 40
 #define CELL_Y_INSET 20
 
+#define FT_PER_M 3.2808399
+#define FT_PER_MI 5120
+
+static BOOL metricDistanceUnits;
+static BOOL metricAltitudeUnits;
+
 static NSString *
 formatPositiveAngle (CLLocationDegrees ang, double acc)
 {
@@ -79,36 +85,68 @@ formatAltitude (CLLocationDistance alt, CLLocationAccuracy acc)
   if (acc < 0)
     return @"-";
 
-#if 0
-  if (acc > 10)
-    {
-      double quant = 10;
-      while (acc > quant)
-	quant = quant * 10;
-      alt = round (alt / quant) * quant;
-    }
-  else
-    alt = round (alt);
-
-  return [NSString stringWithFormat:@"%d m", (int) alt];
-#else
   static NSString *pm_str;
 
   if (pm_str == nil)
     pm_str = [[NSString alloc] initWithUTF8String:"\302\261"];
 
-  return [NSString stringWithFormat:@"%dm %@%gm",
-	  (int) alt, pm_str, round (acc)];
-#endif
+  if (metricAltitudeUnits)
+    {
+      if (acc == 0)
+	return [NSString stringWithFormat:@"%dm", (int) round (alt)];
+      else
+	{
+	  return [NSString stringWithFormat:@"%dm %@%gm",
+		  (int) round (alt), pm_str, round (acc)];
+	}
+    }
+  else
+    {
+      if (acc == 0)
+	return [NSString stringWithFormat:@"%dft", (int) (alt * FT_PER_M)];
+      else
+	{
+	  return [NSString stringWithFormat:@"%dft %@%gft",
+		  (int) round (alt * FT_PER_M), pm_str,
+		  round (acc * FT_PER_M)];
+	}
+    }
 }
 
 static NSString *
 formatDistance (CLLocationDistance dist)
 {
-  return [NSString stringWithFormat:@"%dm", (int) round (dist)];
+  if (metricDistanceUnits)
+    {
+      if (fabs (dist) < 5000)
+	return [NSString stringWithFormat:@"%dm", (int) round (dist)];
+      else
+	return [NSString stringWithFormat:@"%.1fkm", dist * 1e-3];
+    }
+  else
+    {
+      double feet = dist * FT_PER_M;
+      if (fabs (feet) < 5000)
+	return [NSString stringWithFormat:@"%dft", (int) round (dist)];
+      else
+	return [NSString stringWithFormat:@"%.1fmi", feet * (1. / FT_PER_MI)];
+    }
 }
 
 @implementation LocationTableViewCell
+
++ (void)initialize
+{
+  [super initialize];
+
+  if (self == [LocationTableViewCell class])
+    {
+      metricDistanceUnits = [[NSUserDefaults standardUserDefaults]
+			     integerForKey:@"distance_units_preference"] == 0;
+      metricAltitudeUnits = [[NSUserDefaults standardUserDefaults]
+			     integerForKey:@"altitude_units_preference"] == 0;
+    }
+}
 
 + (CGFloat)heightOfRow
 {
@@ -219,7 +257,7 @@ formatDistance (CLLocationDistance dist)
     {
       distance = altitude - [_previousLocation altitude];
       v_delta = [(distance > 0 ? up_arrow : down_arrow)
-	       stringByAppendingString: formatDistance (fabs(distance))];
+	         stringByAppendingString: formatAltitude (fabs (distance), 0)];
     }
 
   if (h_delta && v_delta)

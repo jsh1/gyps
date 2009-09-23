@@ -44,20 +44,23 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
     }
 
   [_locationManager startUpdatingLocation];
+#if 0
   [_locationManager startUpdatingHeading];
+#endif
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+#if 0
   [_locationManager stopUpdatingHeading];
   [_locationManager stopUpdatingLocation];
+#endif
 
   [super viewDidDisappear:animated];
 }
 
 - (void)dealloc
 {
-  [NSRunLoop cancelPreviousPerformRequestsWithTarget:self];
   [_locations release];
   [_locationManager release];
   [super dealloc];
@@ -113,38 +116,42 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
     }
 }
 
+- (void)setCellLocations:(LocationTableViewCell *)cell
+    indexPath:(NSIndexPath *)path
+{
+  NSInteger count;
+  CLLocation *loc, *prevLoc;
+
+  count = [_locations count];
+  loc = prevLoc = nil;
+
+  if (path.section == 0)
+    {
+      loc = [_locationManager location];
+      if (count > 0)
+	prevLoc = [_locations objectAtIndex:count-1];
+    }
+  else
+    {
+      loc = [_locations objectAtIndex:count-path.row-1];
+      if (path.row < count - 1)
+	prevLoc = [_locations objectAtIndex:count-path.row-2];
+    }
+
+  [cell setLocation:loc];
+  [cell setPreviousLocation:prevLoc];
+}
+
 - (void)reloadCells
 {
   UITableView *tableView = [self tableView];
   LocationTableViewCell *cell;
-  CLLocation *loc, *prevLoc;
-  NSInteger count;
-
-  count = [_locations count];
 
   for (NSIndexPath *path in [tableView indexPathsForVisibleRows])
     {
       cell = (id) [tableView cellForRowAtIndexPath:path];
-      if (cell == nil)
-	continue;
-
-      loc = prevLoc = nil;
-
-      if (path.section == 0)
-	{
-	  loc = [_locationManager location];
-	  if (count > 0)
-	    prevLoc = [_locations objectAtIndex:count-1];
-	}
-      else
-	{
-	  loc = [_locations objectAtIndex:count-path.row-1];
-	  if (path.row < count - 1)
-	    prevLoc = [_locations objectAtIndex:count-path.row-2];
-	}
-
-      [cell setLocation:loc];
-      [cell setPreviousLocation:prevLoc];
+      if (cell != nil)
+	[self setCellLocations:cell indexPath:path];
     }
 }
 
@@ -305,8 +312,6 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
     cellForRowAtIndexPath:(NSIndexPath *)path
 {
   LocationTableViewCell *cell;
-  CLLocation *loc, *prevLoc;
-  NSInteger count;
 
   cell = (id) [tv dequeueReusableCellWithIdentifier:CELL_IDENTIFIER];
 
@@ -317,24 +322,7 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
 	       reuseIdentifier:CELL_IDENTIFIER] autorelease];
     }
 
-  count = [_locations count];
-  loc = prevLoc = nil;
-
-  if (path.section == 0)
-    {
-      loc = [_locationManager location];
-      if (count > 0)
-	prevLoc = [_locations objectAtIndex:count-1];
-    }
-  else
-    {
-      loc = [_locations objectAtIndex:count-path.row-1];
-      if (path.row < count - 1)
-	prevLoc = [_locations objectAtIndex:count-path.row-2];
-    }
-
-  [cell setLocation:loc];
-  [cell setPreviousLocation:prevLoc];
+  [self setCellLocations:cell indexPath:path];
 
   return cell;
 }
@@ -403,6 +391,8 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
       break;
     }
 }
+
+/* MFMailComposeViewControllerDelegate methods. */
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
     didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error

@@ -17,6 +17,7 @@
 		57158D8C1065B4CD00FD890C /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57158D8A1065B4CD00FD890C /* LocationTableViewController.m */; };
 		57158F291065F93300FD890C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57158F281065F93300FD890C /* MessageUI.framework */; };
 		5718DE10106589B8009D496E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5718DE0F106589B8009D496E /* CoreLocation.framework */; };
+		572CFCEB1069EC7100CA4DE4 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 572CFCEA1069EC7100CA4DE4 /* Settings.bundle */; };
 		5736349F1066C4560008DFA2 /* Maps.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5736349E1066C4560008DFA2 /* Maps.xib */; };
 		573634A41066CF6A0008DFA2 /* MapsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 573634A11066CF6A0008DFA2 /* MapsTableViewController.m */; };
 		573634A51066CF6A0008DFA2 /* MapsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 573634A31066CF6A0008DFA2 /* MapsViewController.m */; };
@@ -41,6 +42,7 @@
 		57158D8A1065B4CD00FD890C /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewController.m; sourceTree = "<group>"; };
 		57158F281065F93300FD890C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5718DE0F106589B8009D496E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		572CFCEA1069EC7100CA4DE4 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5736349E1066C4560008DFA2 /* Maps.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Maps.xib; sourceTree = "<group>"; };
 		573634A01066CF6A0008DFA2 /* MapsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapsTableViewController.h; sourceTree = "<group>"; };
 		573634A11066CF6A0008DFA2 /* MapsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapsTableViewController.m; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				5736349E1066C4560008DFA2 /* Maps.xib */,
 				8D1107310486CEB800E47090 /* Gyps-Info.plist */,
+				572CFCEA1069EC7100CA4DE4 /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
 				5736349F1066C4560008DFA2 /* Maps.xib in Resources */,
+				572CFCEB1069EC7100CA4DE4 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

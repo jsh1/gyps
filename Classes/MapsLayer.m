@@ -80,7 +80,7 @@ parseLongitude (NSString *str)
 
 + (CFTimeInterval)fadeDuration
 {
-  return 0;
+  return .5;
 }
 
 + (id)defaultValueForKey:(NSString *)key
@@ -308,19 +308,28 @@ invalidateLocationMarker (MapsLayer *self, CLLocation *loc)
   CLLocation *currentLocation;
   NSArray *locations;
   NSInteger i, count;
+  CGPDFDocumentRef doc;
+  CGPDFPageRef page;
   CGPoint p;
-  CGRect r;
-
-  if (_page != NULL)
-    {
-      CGContextTranslateCTM (ctx, _pageRect.origin.x, _pageRect.origin.y);
-      CGContextDrawPDFPage (ctx, _page);
-    }
+  CGRect pageRect, r;
 
   @synchronized (self)
     {
+      /* Retaining the page alone isn't good enough, it references the
+         PDF document without retaining it. */
+
+      doc = CGPDFDocumentRetain (_document);
+      page = CGPDFPageRetain (_page);
+      pageRect = _pageRect;
+
       currentLocation = [_currentLocation retain];
       locations = [_locations retain];
+    }
+
+  if (page != NULL)
+    {
+      CGContextTranslateCTM (ctx, pageRect.origin.x, pageRect.origin.y);
+      CGContextDrawPDFPage (ctx, page);
     }
 
   CGContextSetLineWidth (ctx, MARKER_LINE_WIDTH);
@@ -345,6 +354,9 @@ invalidateLocationMarker (MapsLayer *self, CLLocation *loc)
       CGContextAddEllipseInRect (ctx, r);
       CGContextStrokePath (ctx);
     }
+
+  CGPDFPageRelease (page);
+  CGPDFDocumentRelease (doc);
 
   [currentLocation release];
   [locations release];
