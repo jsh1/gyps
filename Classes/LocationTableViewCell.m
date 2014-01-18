@@ -199,15 +199,15 @@ formatDistance (CLLocationDistance dist)
       down_arrow = [[NSString alloc] initWithUTF8String:"\342\206\223"];
     }
 
-#if 0
-  UIFont *f = [UIFont fontWithName:@"Courier" size:FONT_SIZE];
-  UIFont *bf = [UIFont fontWithName:@"Courier-Bold" size:FONT_SIZE];
-  UIFont *df = [UIFont fontWithName:@"Courier" size:14];
-#else
-  UIFont *f = [UIFont systemFontOfSize:FONT_SIZE];
-  UIFont *bf = [UIFont boldSystemFontOfSize:FONT_SIZE];
-  UIFont *df = [UIFont systemFontOfSize:14];
-#endif
+  NSDictionary *f_attrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+			   [UIFont systemFontOfSize:FONT_SIZE],
+			   NSFontAttributeName, nil];
+  NSDictionary *bf_attrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+			    [UIFont boldSystemFontOfSize:FONT_SIZE],
+			    NSFontAttributeName, nil];
+  NSDictionary *df_attrs = [[NSDictionary alloc] initWithObjectsAndKeys:
+			    [UIFont systemFontOfSize:14],
+			    NSFontAttributeName, nil];
 
   [[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1] set];
   UIRectFill (clip);
@@ -228,27 +228,27 @@ formatDistance (CLLocationDistance dist)
   [[UIColor grayColor] set];
 
   r = CGRectMake (10, 0, bounds.origin.x + bounds.size.width - 10, 14);
-  [[[_location timestamp] description] drawInRect:r
-   withFont:df lineBreakMode:UILineBreakModeWordWrap
-   alignment:UITextAlignmentLeft];
+  [[[_location timestamp] description] drawInRect:r withAttributes:df_attrs];
 
   [[UIColor blackColor] set];
 
   CGPoint p = CGPointMake (CELL_X_INSET, CELL_Y_INSET);
 
-  [formatAngle (pos.latitude, hacc, "N", "S") drawAtPoint:p withFont:bf];
+  [formatAngle (pos.latitude, hacc, "N", "S")
+   drawAtPoint:p withAttributes:bf_attrs];
   p.y += LINE_SPACING;
-  [formatAngle (pos.longitude, hacc, "E", "W") drawAtPoint:p withFont:bf];
+  [formatAngle (pos.longitude, hacc, "E", "W")
+   drawAtPoint:p withAttributes:bf_attrs];
   p.y += LINE_SPACING;
 
-  [formatAltitude (altitude, vacc) drawAtPoint:p withFont:f];
+  [formatAltitude (altitude, vacc) drawAtPoint:p withAttributes:f_attrs];
   p.y += LINE_SPACING;
 
   NSString *h_delta = nil, *v_delta = nil, *str;
 
   if (_previousLocation && hacc >= 0)
     {
-      distance = [_location getDistanceFrom:_previousLocation];
+      distance = [_location distanceFromLocation:_previousLocation];
       h_delta = [right_arrow stringByAppendingString:
 		 formatDistance (distance)];
     }
@@ -272,8 +272,7 @@ formatDistance (CLLocationDistance dist)
 
   r = CGRectMake (p.x, p.y, bounds.origin.x + bounds.size.width
 		  - p.x - CELL_X_INSET, LINE_SPACING);
-  [str drawInRect:r withFont:f lineBreakMode:UILineBreakModeWordWrap
-   alignment:UITextAlignmentRight];
+  [str drawInRect:r withAttributes:f_attrs];
 
   p.y += LINE_SPACING;
 }

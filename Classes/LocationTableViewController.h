@@ -22,6 +22,8 @@ enum LocationActionSheetMode
   NSMutableArray *_locations;
   CLLocationManager *_locationManager;
   unsigned int _actionSheetMode;
+
+  MFMailComposeViewController *_msgController;
 }
 
 @property(nonatomic, readonly) CLLocation *currentLocation;

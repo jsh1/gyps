@@ -72,14 +72,14 @@
   [[navController navigationBar] setTranslucent:YES];
   [[navController toolbar] setTranslucent:YES];
   [[UIApplication sharedApplication]
-   setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+   setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)flag
 {
   UINavigationController *navController = (id) [self parentViewController];
 
-  [super viewWillDisappear:animated];
+  [super viewWillDisappear:flag];
 
   [self setUIHidden:NO];
 
@@ -87,8 +87,9 @@
   [[navController toolbar] setTranslucent:NO];
 
   [[UIApplication sharedApplication]
-   setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-  [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+   setStatusBarStyle:UIStatusBarStyleLightContent];
+  [[UIApplication sharedApplication] setStatusBarHidden:NO
+   withAnimation:flag ? UIStatusBarAnimationSlide : UIStatusBarAnimationNone];
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -103,13 +104,13 @@
 
 - (IBAction)mapListAction:(id)sender
 {
-  [self presentModalViewController:_tableController animated:YES];
+  [self presentViewController:_tableController animated:YES completion:nil];
 }
 
 - (void)tableDidSelectMap:(NSDictionary *)map
 {
   [self setCurrentMap:map];
-  [self dismissModalViewControllerAnimated:YES];
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)dealloc
@@ -215,7 +216,8 @@
   if (flag)
     [UIView commitAnimations];
 
-  [[UIApplication sharedApplication] setStatusBarHidden:state animated:flag];
+  [[UIApplication sharedApplication] setStatusBarHidden:state
+   withAnimation:flag ? UIStatusBarAnimationSlide : UIStatusBarAnimationNone];
 
   insets = UIEdgeInsetsZero;
   if (!state)

@@ -230,7 +230,6 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
 
 - (IBAction)emailKMLAction:(id)sender
 {
-  MFMailComposeViewController *controller;
   NSMutableString *str;
   NSData *kmlData;
   NSInteger idx;
@@ -274,14 +273,17 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
   
   kmlData = [str dataUsingEncoding:NSUTF8StringEncoding];
 
-  controller = [[MFMailComposeViewController alloc] init];
-  [controller setSubject:@"Gyps KML data"];
-  [controller addAttachmentData:kmlData
-   mimeType:@"application/vnd.google-earth.kml+xml" fileName:@"gyps-log.kml"];
-  [controller setMailComposeDelegate:self];
+  if (_msgController == nil)
+    {
+      _msgController = [[MFMailComposeViewController alloc] init];
+      [_msgController setSubject:@"Gyps KML data"];
+    }
 
-  [self presentModalViewController:controller animated:YES];
-  [controller release];
+  [_msgController addAttachmentData:kmlData
+   mimeType:@"application/vnd.google-earth.kml+xml" fileName:@"gyps-log.kml"];
+  [_msgController setMailComposeDelegate:self];
+
+  [self presentViewController:_msgController animated:YES completion:nil];
 }
 
 /* UITableViewDelegate / UITableViewDataSource methods. */
@@ -397,7 +399,10 @@ NSString *const LocationsDidChange = @"LocationsDidChange";
 - (void)mailComposeController:(MFMailComposeViewController *)controller
     didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-  [self dismissModalViewControllerAnimated:YES];
+  [self dismissViewControllerAnimated:YES completion:^{
+    [_msgController release];
+    _msgController = nil;
+  }];
 }
 
 /* CLLocationManagerDelegate methods. */

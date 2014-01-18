@@ -11,7 +11,7 @@
 {
   [_window addSubview:[_controller view]];
   [[UIApplication sharedApplication]
-   setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+   setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)dealloc
